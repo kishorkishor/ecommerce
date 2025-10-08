@@ -1,11 +1,14 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useProducts } from '@/hooks/useProducts'
 import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
 
-export default function SearchPage() {
+export const dynamic = 'force-dynamic'
+
+function SearchContent() {
   const searchParams = useSearchParams()
   const q = searchParams.get('q') ?? ''
   const { data, isLoading, isError } = useProducts({ q, per_page: 24, page: 1 })
@@ -28,6 +31,14 @@ export default function SearchPage() {
         ))}
       </div>
     </div>
+  )
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="p-8">Loading search...</div>}>
+      <SearchContent />
+    </Suspense>
   )
 }
 
