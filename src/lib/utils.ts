@@ -7,7 +7,17 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatPrice(price: number): string {
-  return `${process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '৳'}${price.toFixed(2)}`
+  // Prices in data are assumed to be in BDT. Convert to selected currency.
+  try {
+    // dynamic import to avoid server-side zustand usage issues in some contexts
+    // if store not available yet, fallback to env symbol
+    const { getCurrencyInfo, convertFromBDT } = require('@/store/currency') as typeof import('@/store/currency')
+    const info = getCurrencyInfo()
+    const converted = convertFromBDT(price, info)
+    return `${info.symbol}${converted.toFixed(2)}`
+  } catch {
+    return `${process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '৳'}${price.toFixed(2)}`
+  }
 }
 
 export function formatDate(date: string | Date): string {

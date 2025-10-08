@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Search, ShoppingCart, Heart, User, Camera, Menu, X, Bell, Settings } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
@@ -15,6 +15,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   const [cartCount, setCartCount] = useState(0)
   const [wishCount, setWishCount] = useState(0)
+  const [authed, setAuthed] = useState(false)
 
   useEffect(() => {
     import('@/store/cart').then(({ useCartStore, getCartTotals }) => {
@@ -35,6 +36,15 @@ export default function Header({ onMenuClick }: HeaderProps) {
         setWishCount(Object.keys(state.items).length)
       })
       setWishCount(Object.keys(useWishlistStore.getState().items).length)
+      return () => unsub()
+    })
+  }, [])
+
+  useEffect(() => {
+    import('@/store/auth').then(({ useAuthStore }) => {
+      const apply = (state: any) => setAuthed(!!state.token)
+      const unsub = useAuthStore.subscribe(apply)
+      apply(useAuthStore.getState())
       return () => unsub()
     })
   }, [])
@@ -90,18 +100,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
           {/* Right Side Icons */}
           <div className="flex items-center space-x-4">
-            {/* Language Switcher */}
+            {/* Currency Switcher */}
                 <div className="hidden sm:block">
-                  <LocaleSwitcher />
+                  <CurrencySwitcher />
                 </div>
 
             {/* Notifications */}
-            <button className="relative p-3 text-white hover:bg-orange-600 rounded-lg transition-colors">
-              <Bell className="h-6 w-6" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                3
-              </span>
-            </button>
+            {authed && (
+              <button className="relative p-3 text-white hover:bg-orange-600 rounded-lg transition-colors">
+                <Bell className="h-6 w-6" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  3
+                </span>
+              </button>
+            )}
 
             {/* Cart Icon */}
                 <Link href="/cart" className="relative p-3 text-white hover:bg-orange-600 rounded-lg transition-colors">
@@ -232,31 +244,66 @@ function AccountButton() {
   )
 }
 
-function LocaleSwitcher() {
-  const [value, setValue] = useState<'en' | 'bn'>('en')
+function CurrencySwitcher() {
+  const [value, setValue] = useState<'BDT' | 'USD' | 'AED' | 'INR' | 'PKR' | 'PHP' | 'SAR' | 'EUR'>('BDT')
+  const [open, setOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
-    import('@/store/locale').then(({ useLocaleStore }) => {
-      const apply = (s: any) => setValue(s.locale)
-      const unsub = useLocaleStore.subscribe(apply)
-      apply(useLocaleStore.getState())
+    import('@/store/currency').then(({ useCurrencyStore }) => {
+      const apply = (s: any) => setValue(s.currency)
+      const unsub = useCurrencyStore.subscribe(apply)
+      apply(useCurrencyStore.getState())
       return () => unsub()
     })
   }, [])
 
+  useEffect(() => {
+    function onDocClick(e: MouseEvent) {
+      const el = containerRef.current
+      if (!el) return
+      if (!el.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', onDocClick)
+    return () => document.removeEventListener('mousedown', onDocClick)
+  }, [])
+
+  const options: Array<typeof value> = ['BDT','USD','AED','INR','PKR','PHP','SAR','EUR']
+
   return (
-    <select
-      value={value}
-      onChange={(e) => {
-        const v = e.target.value as 'en' | 'bn'
-        setValue(v)
-        import('@/store/locale').then(({ useLocaleStore }) => {
-          useLocaleStore.getState().setLocale(v)
-        })
-      }}
-      className="bg-transparent text-white border border-white/30 rounded-lg px-3 py-2 text-sm font-medium hover:bg-white/10 transition-colors"
-    >
-      <option value="en" className="bg-orange-600">EN</option>
-      <option value="bn" className="bg-orange-600">বাংলা</option>
-    </select>
+    <div ref={containerRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="bg-gradient-to-r from-orange-400/30 to-orange-600/30 backdrop-blur-md backdrop-saturate-150 text-white border border-orange-200/40 rounded-xl px-3 py-2 text-base font-semibold shadow-lg hover:from-orange-400/40 hover:to-orange-600/40 focus:outline-none focus:ring-2 focus:ring-orange-200/60 transition-colors min-w-[92px] text-left"
+      >
+        {value}
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-2 w-36 rounded-xl border border-orange-200/40 bg-gradient-to-br from-orange-500/20 to-orange-700/20 backdrop-blur-xl backdrop-saturate-150 shadow-2xl overflow-hidden z-50">
+          <ul className="py-1">
+            {options.map((opt) => (
+              <li key={opt}>
+                <button
+                  onClick={() => {
+                    setValue(opt)
+                    setOpen(false)
+                    import('@/store/currency').then(({ useCurrencyStore }) => {
+                      useCurrencyStore.getState().setCurrency(opt)
+                    })
+                  }}
+                  className={cn(
+                    'w-full text-left px-3 py-2 text-base text-white hover:bg-orange-500/30 transition-colors',
+                    opt === value && 'bg-orange-500/40'
+                  )}
+                >
+                  {opt}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   )
 }

@@ -23,3 +23,4 @@ export const useLocaleStore = create<LocaleState>()(
 export function t(en: string, bn: string, current: Locale) {
   return current === 'bn' ? bn : en
 }
+

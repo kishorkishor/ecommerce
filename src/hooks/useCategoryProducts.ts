@@ -41,3 +41,4 @@ export function useCategoryProducts(slug: string, page = 1, perPage = 24, sort?:
 }
 
 
+
