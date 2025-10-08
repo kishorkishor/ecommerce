@@ -26,6 +26,11 @@ export default function Home() {
             {/* Main Promotional Card - Left */}
             <div className="lg:col-span-2 relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-white group cursor-pointer">
               <div className="absolute inset-0 bg-black/20"></div>
+              <div className="absolute top-2 left-2 z-10">
+                <span className="inline-block rounded-full bg-white/90 text-blue-700 text-[10px] sm:text-xs font-bold tracking-wide px-2.5 py-1 shadow">
+                  ChinaWholesale
+                </span>
+              </div>
               <div className="relative h-full p-6 sm:p-8 lg:p-12 flex flex-col justify-center">
                 {/* Background Elements */}
                 <div className="absolute top-4 right-8 text-6xl opacity-20">✈️</div>
@@ -57,14 +62,19 @@ export default function Home() {
               {/* Top Card - Special Offer */}
               <div className="h-36 lg:h-44 relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white group cursor-pointer">
                 <div className="absolute inset-0 bg-black/10"></div>
+                <div className="absolute top-2 left-2 z-10">
+                  <span className="inline-block rounded-full bg-white/90 text-orange-700 text-[10px] sm:text-xs font-bold tracking-wide px-2.5 py-1 shadow">
+                    ChinaWholesale
+                  </span>
+                </div>
                 <div className="relative h-full p-4 sm:p-6 flex flex-col justify-center">
                   <div className="text-center">
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-2">SKYONE</h3>
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-2">ChinaWholesale</h3>
                     <p className="text-sm sm:text-base text-orange-100 mb-3">
-                      এক পিস কিনতে ভিজিট করুন
+                      Wholesale deals and single-piece options
                     </p>
                     <p className="text-xs sm:text-sm text-orange-200">
-                      Visit to buy one piece
+                      Quality products, fair pricing
                     </p>
                   </div>
                 </div>
@@ -73,12 +83,17 @@ export default function Home() {
               {/* Bottom Card - Shipping */}
               <div className="h-36 lg:h-44 relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 to-blue-700 text-white group cursor-pointer">
                 <div className="absolute inset-0 bg-black/10"></div>
+                <div className="absolute top-2 left-2 z-10">
+                  <span className="inline-block rounded-full bg-white/90 text-blue-700 text-[10px] sm:text-xs font-bold tracking-wide px-2.5 py-1 shadow">
+                    ChinaWholesale
+                  </span>
+                </div>
                 <div className="relative h-full p-4 sm:p-6 flex flex-col justify-center">
                   <div className="text-center">
                     <div className="flex items-center justify-center mb-2">
-                      <span className="text-2xl sm:text-3xl font-bold">Sky</span>
+                      <span className="text-2xl sm:text-3xl font-bold">China</span>
                       <span className="text-2xl mx-2">🌍</span>
-                      <span className="text-2xl sm:text-3xl font-bold">Ship</span>
+                      <span className="text-2xl sm:text-3xl font-bold">Wholesale</span>
                     </div>
                     <p className="text-sm sm:text-base text-blue-100 mb-2">
                       দ্রুত ও নির্ভরযোগ্য শিপমেন্ট

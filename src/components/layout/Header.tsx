@@ -74,7 +74,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </div>
 
           {/* Search Bar - Center */}
-          <div className="flex-1 max-w-3xl mx-8 hidden lg:block">
+          <div className="flex-1 max-w-3xl mx-2 sm:mx-4 lg:mx-8 hidden lg:block">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Search className="h-6 w-6 text-gray-400" />
@@ -84,13 +84,18 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 placeholder="Search for products, brands, and more..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full pl-12 pr-16 py-4 border border-transparent rounded-xl leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-white focus:border-transparent shadow-lg text-lg"
+                className="block w-full pl-12 pr-24 py-4 border border-transparent rounded-xl leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-white focus:border-transparent shadow-lg text-lg"
               />
-                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center gap-3">
-                    <Camera className="h-6 w-6 text-gray-400 hover:text-orange-500 cursor-pointer transition-colors" />
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center gap-2">
+                    <button
+                      aria-label="Visual search"
+                      className="h-9 w-9 shrink-0 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                    >
+                      <Camera className="h-5 w-5 text-gray-500" />
+                    </button>
                     <Link
                       href={`/search?q=${encodeURIComponent(searchQuery)}`}
-                      className="text-sm text-orange-600 font-semibold hover:underline"
+                      className="shrink-0 px-3 h-9 inline-flex items-center justify-center rounded-lg bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 transition-colors"
                     >
                       Search
                     </Link>
@@ -99,7 +104,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </div>
 
           {/* Right Side Icons */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {/* Currency Switcher */}
                 <div className="hidden sm:block">
                   <CurrencySwitcher />
@@ -116,7 +121,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             )}
 
             {/* Cart Icon */}
-                <Link href="/cart" className="relative p-3 text-white hover:bg-orange-600 rounded-lg transition-colors">
+                <Link href="/cart" className="relative p-2 sm:p-3 text-white hover:bg-orange-600 rounded-lg transition-colors">
               <ShoppingCart className="h-6 w-6" />
                   <span className="absolute -top-1 -right-1 bg-white text-orange-600 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {cartCount}
@@ -124,7 +129,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             </Link>
 
             {/* Wishlist Icon */}
-                <Link href="/wishlist" className="relative p-3 text-white hover:bg-orange-600 rounded-lg transition-colors">
+                <Link href="/wishlist" className="relative p-2 sm:p-3 text-white hover:bg-orange-600 rounded-lg transition-colors">
                   <Heart className="h-6 w-6" />
                   <span className="absolute -top-1 -right-1 bg-white text-orange-600 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {wishCount}
@@ -154,13 +159,18 @@ export default function Header({ onMenuClick }: HeaderProps) {
               placeholder="Search for products, brands, and more..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="block w-full pl-12 pr-16 py-4 border border-transparent rounded-xl leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-white focus:border-transparent shadow-lg text-lg"
+              className="block w-full pl-12 pr-24 py-4 border border-transparent rounded-xl leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-white focus:border-transparent shadow-lg text-lg"
             />
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center gap-3">
-                  <Camera className="h-6 w-6 text-gray-400 hover:text-orange-500 cursor-pointer transition-colors" />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center gap-2">
+                  <button
+                    aria-label="Visual search"
+                    className="h-9 w-9 shrink-0 flex items-center justify-center rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                  >
+                    <Camera className="h-5 w-5 text-gray-500" />
+                  </button>
                   <Link
                     href={`/search?q=${encodeURIComponent(searchQuery)}`}
-                    className="text-sm text-orange-600 font-semibold hover:underline"
+                    className="shrink-0 px-3 h-9 inline-flex items-center justify-center rounded-lg bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 transition-colors"
                   >
                     Search
                   </Link>
